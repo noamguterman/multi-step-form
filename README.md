@@ -5,7 +5,7 @@ A **multi-step form** built with **HTML, CSS, and JavaScript**, designed for a *
 ![Multi-Step Form](https://raw.githubusercontent.com/noamguterman/multi-step-form/refs/heads/master/assets/images/multi-step-form-preview.png)
 
 ## 🚀 Live Demo  
-🔗 [Try the Multi-Step Form]([https://your-live-demo-link.com](https://noamguterman.github.io/multi-step-form/))
+🔗 [Try the Multi-Step Form](https://noamguterman.github.io/multi-step-form/)
 
 ---
 
