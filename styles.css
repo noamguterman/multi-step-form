@@ -1,0 +1,690 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./assets/fonts/Ubuntu-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./assets/fonts/Ubuntu-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./assets/fonts/Ubuntu-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+:root {
+    --bg: #EFF5FF;
+    --border-color: #D6D9E6;
+    --denim: #022959;
+    --grey: #9699AA;
+    --dark-grey: #57576B;
+    --light-blue: #ABBCFF;
+    --light-grey: #D6D9E6;
+    --orange: #FFAF7E;
+    --pink: #F9818E;
+    --purple: #483EFF;
+    --red-errors: #EE374A;
+    --sky-blue: #BEE2FD;
+    --very-light-grey: #F8F9FF;
+    --white: #FFFFFF;
+    --heading: 2rem;
+    --heading-font-weight: 700;
+    --body-large: 1rem;
+    --body-large-line-height: 1.5;
+    --body-medium: .875rem;
+    --body-small: .75rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap;
+}
+
+button,
+a,
+input {
+    font-family: inherit;
+}
+
+.is-hidden {
+    display: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg);
+    font-family: 'Ubuntu', sans-serif;
+    padding: 1em;
+    min-height: 100vh;
+    align-items: center;
+}
+
+main {
+    background-color: var(--white);
+    width: 940px;
+    height: 600px;
+    padding: 1em;
+    border-radius: 15px;
+    display: flex;
+    margin: auto;
+    box-shadow: 0 0 25px rgba(0, 0, 0, .3);
+}
+
+nav {
+    background: url('./assets/images/bg-sidebar-desktop.svg') no-repeat;
+    width: 274px;
+    height: 568px;
+}
+nav #steps {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2em;
+    padding-top: 2.5em;
+    gap: 2em;
+}
+nav .step {
+    display: flex;
+    gap: 1em;
+}
+nav .step__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: .875rem;
+    font-weight: 700;
+    width: 2.3em;
+    height: 2.3em;
+    border: 1px solid var(--white);
+    border-radius: 50%;
+}
+nav .step__icon.is-active {
+    color: var(--denim);
+    background-color: var(--sky-blue);
+    border: 1px solid var(--sky-blue);
+}
+nav .step__text {
+    display: flex;
+    flex-direction: column;
+    gap: .25em;
+}
+nav .step__text--title {
+    font-size: var(--body-small);
+    color: var(--light-blue);
+    text-transform: uppercase;
+}
+nav .step__text--subtitle {
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+form {
+    width: 450px;
+    height: 100%;
+    margin: auto;
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+form section {
+    display: flex;
+    flex-direction: column;
+}
+form section h1 {
+    font-size: var(--heading);
+    font-weight: var(--heading-font-weight);
+    color: var(--denim);
+}
+form section p {
+    font-size: var(--body-large);
+    line-height: var(--body-large-line-height);
+    color: var(--dark-grey);
+    margin-top: .5em;
+    margin-bottom: 1em;
+}
+
+.info-label-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+#info label {
+    font-size: var(--body-medium);
+    color: var(--denim);
+}
+#info .info-label-container {
+    margin-top: 1.5em;
+}
+#info .info-label-container:first-of-type {
+    margin-top: 1em;
+}
+#info .error-message {
+    visibility: hidden;
+    opacity: 0;
+    color: var(--red-errors);
+    font-weight: 700;
+    font-size: .875rem;
+}
+#info .error-message.show {
+    visibility: visible;
+    opacity: 1;
+}
+#info input {
+    font-size: 1rem;
+    color: var(--denim);
+    font-weight: 500;
+    padding: 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: .5em;
+}
+#info input::placeholder {
+    color: var(--grey);
+}
+#info input:hover {
+    border-color: var(--purple);
+}
+#info input:focus {
+    outline: none;
+    border-color: var(--purple);
+}
+#info input.error {
+    border-color: var(--red-errors);
+}
+
+#plan #plans {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+#plan .plan {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1em;
+    padding-top: 1.5em;
+    width: 33.3%;
+    background-color: var(--white);
+    cursor: pointer;
+}
+#plan .plan:hover {
+    border-color: var(--purple);
+}
+#plan .plan:has(input:checked) {
+    border-color: var(--purple);
+    background-color: var(--very-light-grey);
+}
+#plan .plan input {
+    display: none;
+}
+#plan .plan svg {
+    width: 40px;
+    height: 40px;
+}
+#plan .plan h2 {
+    font-size: var(--body-large);
+    font-weight: 500;
+    color: var(--denim);
+    margin-top: 2em;
+}
+#plan .plan p {
+    font-size: var(--body-medium);
+    line-height: 1.25rem;
+    margin: 0;
+    margin-top: .6em;
+}
+#plan .plan .free {
+    color: var(--denim);
+    font-size: var(--body-small);
+    margin: 0;
+    margin-top: .6em;
+}
+#plan #toggle {
+    background-color: var(--very-light-grey);
+    border-radius: 8px;
+    margin-top: 2em;
+    padding: .8em 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em;
+    cursor: pointer;
+}
+#plan #toggle input {
+    display: none;
+}
+#plan #toggle .slider {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 2.5em;
+    height: 1.25em;
+    background-color: var(--denim);
+    border-radius: 10px;
+}
+#plan #toggle .slider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    width: .75em;
+    height: .75em;
+    background-color: var(--white);
+    border-radius: 50%;
+}
+#plan #toggle input:checked ~ .slider {
+    background-color: var(--purple);
+}
+#plan #toggle input:checked ~ .slider::before {
+    left: 60%;
+}
+#plan #toggle p {
+    margin: 0;
+    font-weight: 500;
+    font-size: var(--body-medium);
+}
+#plan #toggle input:checked ~ p.yearly {
+    color: var(--denim);
+}
+#plan #toggle input:checked ~ p.monthly {
+    color: var(--dark-grey);
+}
+#plan #toggle input:not(:checked) ~ p.monthly {
+    color: var(--denim);
+}
+
+#plan #toggle input:not(:checked) ~ p.yearly {
+    color: var(--dark-grey);
+}
+
+#addons .labels {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+#addons label {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 1.5em;
+    cursor: pointer;
+}
+#addons label:hover {
+    border-color: var(--purple);
+}
+#addons label:has(input:checked) {
+    background-color: var(--very-light-grey);
+    border: 1px solid var(--purple);
+}
+#addons .left-side {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+#addons input {
+    width: 1.25em;
+    height: 1.25em;
+    border: 1px solid var(--border-color);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+#addons input:checked {
+    border-color: var(--purple);
+    background-color: var(--purple);
+}
+#addons input:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: .8em;
+    height: .8em;
+    background: url(./assets/images/icon-checkmark.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#addons .left-side h2 {
+    color: var(--denim);
+    font-size: var(--body-large);
+    font-weight: 500;
+}
+#addons .left-side p {
+    margin: 0;
+    font-size: var(--body-medium);
+    line-height: 1.25;
+    margin-top: .5em;
+}
+#addons p.right-side {
+    margin: 0;
+    font-size: var(--body-medium);
+    line-height: 1.25;
+    color: var(--purple)
+}
+#summary #summary-container {
+    background-color: var(--very-light-grey);
+    padding: 1em 1.5em 1.5em 1.5em;
+    border-radius: 8px;
+    margin-top: 1em;
+}
+#summary #plan-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#summary #plan-summary h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--denim)
+}
+#summary #plan-summary h3 {
+    font-size: var(--body-large);
+    color: var(--denim);
+    font-weight: 700;
+}
+#summary .divider {
+    border-top: 1px solid var(--border-color);
+    margin: 1.6em 0 1.2em 0;
+}
+#summary #addons-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+#summary #addons-summary div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#summary #addons-summary div p {
+    font-size: var(--body-medium);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+#summary #addons-summary div p:first-of-type {
+    color: var(--dark-grey);
+}
+#summary #addons-summary div p:not(:first-of-type) {
+    color: var(--denim);
+}
+#summary #total-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 1.5em 1.5em 1.5em; 
+    margin-top: .6em;
+}
+#summary #total-summary h4 {
+    font-size: var(--body-medium);
+    color: var(--dark-grey);
+    font-weight: 400;
+}
+#summary #total-summary h5 {
+    color: var(--purple);
+    font-size: 1.25rem;
+}
+
+#confirmation {
+    margin: auto;
+    text-align: center;
+}
+#confirmation svg {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+#confirmation h1 {
+    font-size: var(--heading);
+    font-weight: var(--heading-font-weight);
+    color: var(--denim);
+    margin-top: 1em;
+}
+#confirmation p {
+    margin-top: 1em;
+}
+
+#nav-bottom {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    min-width: 7em;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: .8em 1.2em;
+    color: var(--white);
+    background-color: var(--grey);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn:hover {
+    opacity: .9;
+}
+.btn--back {
+    background-color: transparent;
+    color: var(--grey);
+}
+.btn--next {
+    background-color: var(--denim);
+}
+.btn--confirm {
+    background-color: var(--purple);
+}
+.btn--change {
+    font-weight: 400;
+    background: none;
+    color: var(--dark-grey);
+    font-size: var(--body-medium);
+    text-decoration: underline;
+    padding: .2em 0;
+    margin: 0;
+    margin-top: .6em;
+    text-align: left;
+}
+
+@media (max-width: 880px) {
+    body {
+        flex-direction: column;
+        padding: 0;
+        height: 100vh;
+    }
+    main {
+        flex-direction: column;
+        padding: 0;
+        height: 90vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        background: none;
+        box-shadow: none;
+    }
+    nav {
+        background: no-repeat center center fixed; 
+        background: url('./assets/images/bg-sidebar-mobile.svg');
+        background-size: cover;
+        width: 100%;
+        height: 15em;
+        padding-top: 1em;
+        position: absolute;
+        top: -5px;
+    }
+    form {
+        position: relative;
+        margin-top: 9em;
+        width: 90%;
+        min-height: min-content;
+        height: auto;
+        background-color: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, .3);
+    }
+    nav #steps {
+        flex-direction: row;
+        padding: 0;
+        margin: 0 3em;
+        justify-content: space-around;
+        margin-top: 1em;
+    }
+    nav .step {
+        flex-direction: column;
+        gap: .5em;
+    }
+    section {
+        padding: 2em;
+        padding-top: 0;
+    }
+    #plan .plan {
+        gap: .7em;
+    }
+    #plan .free {
+        margin-bottom: .3em;
+    }
+    #plan #toggle {
+        padding: 2em;
+    }
+    #summary .divider {
+        margin: 1em 0;
+    }
+    #summary #total-summary {
+        padding-bottom: 0;
+    }
+    #nav-bottom {
+        width: 100%;
+        padding: 1em;
+        background-color: var(--white);
+    }
+    .btn {
+        width: 45%;
+        height: 4em;
+        font-size: 1.2rem;
+    }
+    .btn--change {
+        height: 100%;
+        font-size: .875rem;
+    }
+}
+@media (max-width: 550px) {
+    nav {
+        height: 10em;
+    }
+    nav #steps {
+        justify-content: center;
+    }
+    nav .step__text {
+        display: none;
+    }
+    form {
+        margin-top: 5.5em;
+    }
+    #plan #plans {
+        flex-direction: column;
+        gap: 1em;
+        margin-top: 0;
+    }
+    #plan .plan {
+        padding: 1em;
+        gap: 1em;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+    }
+    #plan .plan h2 {
+        margin-top: 0;
+    }
+    #plan .plan p {
+        margin-top: 0;
+    }
+    #plan .plan .free {
+        margin-top: 0;
+        padding-top: 0;
+        margin-left: auto;
+    }
+    #plan #toggle {
+        padding: 1em;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    nav .step__icon.is-active,
+    #info .error-message,
+    #info input:hover,
+    #info input:focus,
+    #info input.error,
+    #plan .plan:hover,
+    #plan .plan:has(input:checked),
+    #plan .plan .free,
+    #plan #toggle input:checked ~ .slider,
+    #plan #toggle input:checked ~ .slider::before,
+    #plan #toggle input:not(checked) ~ .slider,
+    #plan #toggle input:not(checked) ~ .slider::before,
+    #plan #toggle input:checked ~ p.yearly,
+    #plan #toggle input:checked ~ p.monthly,
+    #plan #toggle input:not(:checked) ~ p.monthly,
+    #plan #toggle input:not(:checked) ~ p.yearly,
+    #addons label:hover,
+    #addons label:has(input:checked),
+    #addons input:checked,
+    #addons input:checked::before,
+    .btn:hover {
+        transition: all .3s ease;
+    }
+
+    .error-message.show {
+        opacity: 0;
+        animation: fadeIn 0.2s ease-in forwards;
+    }
+
+    .free {
+        opacity: 0;
+        animation: fadeIn 0.2s ease-in forwards;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
