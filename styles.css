@@ -106,6 +106,10 @@ nav #steps {
 nav .step {
     display: flex;
     gap: 1em;
+    cursor: pointer;
+}
+nav .step:has(.step__icon.is-active) {
+    cursor: default;
 }
 nav .step__icon {
     display: flex;

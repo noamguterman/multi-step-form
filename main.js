@@ -23,6 +23,10 @@ const step1 = document.getElementById('step1')
 const step2 = document.getElementById('step2')
 const step3 = document.getElementById('step3')
 const step4 = document.getElementById('step4')
+const step1span = document.getElementById('step1span')
+const step2span = document.getElementById('step2span')
+const step3span = document.getElementById('step3span')
+const step4span = document.getElementById('step4span')
 const name = document.getElementById('name')
 const email = document.getElementById('email')
 const phone = document.getElementById('phone')
@@ -42,7 +46,82 @@ window.addEventListener("resize", adjustNavBottom)
 document.addEventListener("DOMContentLoaded", () => {
     handleInputSelectionMouse()
     handleInputSelectionKeyboard()
+    handleStepNavigation()
 })
+
+function step1handler() {
+    if (step1span.classList.contains('is-active')) return
+    if (step2span.classList.contains('is-active')) {
+        handleBack()
+    }
+    if (step3span.classList.contains('is-active')) {
+        handleBack()
+        handleBack()
+    }
+    if (step4span.classList.contains('is-active')) {
+        handleBack()
+        handleBack()
+        handleBack()
+    }
+}
+
+function step2handler() {
+    if (step2span.classList.contains('is-active')) return
+    if (step3span.classList.contains('is-active')) {
+        handleBack()
+    }
+    if (step4span.classList.contains('is-active')) {
+        handleBack()
+        handleBack()
+    }
+    if (step1span.classList.contains('is-active')) {
+        validateInfo()
+    }
+}
+
+function step3handler() {
+    if (step3span.classList.contains('is-active')) return
+    if (step4span.classList.contains('is-active')) {
+        handleBack()
+    }
+    if (step1span.classList.contains('is-active')) {
+        validateInfo()
+        handleNextFromPlanToAddons()
+    }
+    if (step2span.classList.contains('is-active')) {
+        handleNextFromPlanToAddons()
+    }    
+}
+
+function step4handler() {
+    if (step4span.classList.contains('is-active')) return
+    if (step1span.classList.contains('is-active')) {
+        validateInfo()
+        handleNextFromPlanToAddons()
+        handleNextFromAddonsToSummary()
+    }
+    if (step2span.classList.contains('is-active')) {
+        handleNextFromPlanToAddons()
+        handleNextFromAddonsToSummary()
+    }
+    if (step3span.classList.contains('is-active')) {
+        handleNextFromAddonsToSummary()
+    }    
+}
+
+function handleStepNavigation() {
+    step1.addEventListener('click', step1handler)
+    step2.addEventListener('click', step2handler)
+    step3.addEventListener('click', step3handler)
+    step4.addEventListener('click', step4handler)
+}
+
+function disableStepNavigation() {
+    step1.removeEventListener('click', step1handler)
+    step2.removeEventListener('click', step2handler)
+    step3.removeEventListener('click', step3handler)
+    step4.removeEventListener('click', step4handler)
+}
 
 function updateAriaChecked(groupName) {
     // Get all elements in the same radio group
@@ -208,11 +287,12 @@ function handleNextFromInfoToPlan() {
         planSection.classList.remove('is-hidden')
         backBtn.classList.remove('is-hidden')
         navBottom.style.justifyContent = 'space-between'
-        step1.classList.remove('is-active')
-        step2.classList.add('is-active')
+        step1span.classList.remove('is-active')
+        step2span.classList.add('is-active')
         moveFocusToFirstInteractiveElement('plan')
     } else {
-        validatePlan()
+        handleNextFromPlanToAddons()
+        moveFocusToFirstInteractiveElement('addons')
     }
 }
 
@@ -220,8 +300,8 @@ function handleNextFromPlanToAddons() {
     if (!planSection.classList.contains('is-hidden')) {
         planSection.classList.add('is-hidden')
         addonsSection.classList.remove('is-hidden')
-        step2.classList.remove('is-active')
-        step3.classList.add('is-active')
+        step2span.classList.remove('is-active')
+        step3span.classList.add('is-active')
         moveFocusToFirstInteractiveElement('addons')
     } else {
         handleNextFromAddonsToSummary()
@@ -237,8 +317,8 @@ function handleNextFromAddonsToSummary() {
         summarySection.classList.remove('is-hidden')
         nextBtn.classList.add('is-hidden')
         confirmBtn.classList.remove('is-hidden')
-        step3.classList.remove('is-active')
-        step4.classList.add('is-active')
+        step3span.classList.remove('is-active')
+        step4span.classList.add('is-active')
         moveFocusToFirstInteractiveElement('summary')
     } else {
         return
@@ -334,6 +414,10 @@ function handleSubmit(e) {
         confirmationSection.classList.remove('is-hidden')
         form.classList.add('confirmation-animation')
         navBottom.style.display = 'none'
+        disableStepNavigation()
+        step1.style.cursor = 'default'
+        step2.style.cursor = 'default'
+        step3.style.cursor = 'default'
     } else {
         return
     }
@@ -345,22 +429,22 @@ function handleBack() {
         infoSection.classList.remove('is-hidden')
         backBtn.classList.add('is-hidden')
         navBottom.style.justifyContent = 'flex-end'
-        step1.classList.add('is-active')
-        step2.classList.remove('is-active')
+        step1span.classList.add('is-active')
+        step2span.classList.remove('is-active')
         moveFocusToFirstInteractiveElement('info')
     } else if (!addonsSection.classList.contains('is-hidden')) {
         addonsSection.classList.add('is-hidden')
         planSection.classList.remove('is-hidden')
-        step2.classList.add('is-active')
-        step3.classList.remove('is-active')
+        step2span.classList.add('is-active')
+        step3span.classList.remove('is-active')
         moveFocusToFirstInteractiveElement('plan')
     } else if (!summarySection.classList.contains('is-hidden')) {
         summarySection.classList.add('is-hidden')
         addonsSection.classList.remove('is-hidden')
         confirmBtn.classList.add('is-hidden')
         nextBtn.classList.remove('is-hidden')
-        step3.classList.add('is-active')
-        step4.classList.remove('is-active')
+        step3span.classList.add('is-active')
+        step4span.classList.remove('is-active')
         moveFocusToFirstInteractiveElement('addons')
     } else if (!confirmationSection.classList.contains('is-hidden')) {
         confirmationSection.classList.add('is-hidden')
@@ -489,10 +573,4 @@ function validateEmptyField(field, labelText) {
     errorSpan.classList.remove('show')
     field.removeAttribute("aria-invalid")
     return true
-}
-
-function validatePlan() {
-    if (arcade.checked || advanced.checked || pro.checked) {
-        handleNextFromPlanToAddons()
-    }
 }
