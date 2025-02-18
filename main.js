@@ -40,8 +40,19 @@ phone.addEventListener('input', () => validateField(phone, 'Phone Number'))
 window.addEventListener("load", adjustNavBottom)
 window.addEventListener("resize", adjustNavBottom)
 document.addEventListener("DOMContentLoaded", () => {
-    handleLabelsTabbing()
+    handleInputSelectionMouse()
+    handleInputSelectionKeyboard()
 })
+
+function updateAriaChecked(groupName) {
+    // Get all elements in the same radio group
+    document.querySelectorAll(`input[name="${groupName}"]`).forEach(input => {
+        let parent = input.closest(".plan, .checkbox__container")
+        if (parent) {
+            parent.setAttribute("aria-checked", input.checked.toString())
+        }
+    })
+}
 
 function moveFocusToFirstInteractiveElement(sectionId) {
     const section = document.getElementById(sectionId)
@@ -53,26 +64,78 @@ function moveFocusToFirstInteractiveElement(sectionId) {
     }
 }
 
-function handleLabelsTabbing() {
-    document.addEventListener('keydown', (e) => {
-        if (e.key !== ' ' && e.key !== 'Enter') return
-    
-        let target = e.target
-        let input = target.querySelector('input')
-    
-        if (input) {
-            e.preventDefault()
-    
-            if (input.type === "radio") {
+function handleInputSelectionMouse() {
+    // Handle Plan Selection
+    document.querySelectorAll(".plan").forEach(plan => {
+        plan.addEventListener("click", function () {
+            let input = this.querySelector("input[type='radio']")
+            if (input) {
                 input.checked = true;
                 input.dispatchEvent(new Event("change"))
-            } else if (input.type === "checkbox") {
-                input.checked = !input.checked
-                input.dispatchEvent(new Event("change"))
+                updateAriaChecked(input.name)
+            }
+        })
+    })
 
-                if (input.id === "yearly") {
-                    handleYearlyToggle()
-                }
+    // Handle Toggle Switch Selection
+    const toggleContainer = document.getElementById("toggle")
+    const toggleInput = document.getElementById("yearly")
+
+    if (toggleContainer && toggleInput) {
+        toggleContainer.addEventListener("click", function () {
+            if (event.target !== toggleInput) { // Prevent double activation
+                toggleInput.checked = !toggleInput.checked;
+                toggleInput.dispatchEvent(new Event("change"))
+                toggleInput.setAttribute("aria-checked", toggleInput.checked.toString())
+                handleYearlyToggle()
+            }
+        })
+    }
+
+    // Handle Checkbox Selection (for Add-ons)
+    document.querySelectorAll(".checkbox__container").forEach(container => {
+        container.addEventListener("click", function (event) {
+            let input = this.querySelector("input[type='checkbox']")
+            
+            if (!input) return
+
+            // Prevent double toggle when clicking the input directly
+            if (event.target === input) {
+                input.dispatchEvent(new Event("change"))
+                return
+            }
+
+            // Toggle checkbox when clicking the container
+            input.checked = !input.checked
+            input.dispatchEvent(new Event("change"))
+            input.setAttribute("aria-checked", input.checked.toString())
+        })
+    })
+}
+
+function handleInputSelectionKeyboard() {
+    document.addEventListener("keydown", (e) => {
+        if (e.key !== " " && e.key !== "Enter") return
+
+        let target = e.target.closest(".plan, #toggle, .checkbox__container")
+        if (!target) return;
+
+        let input = target.querySelector("input")
+        if (!input) return
+
+        e.preventDefault()
+
+        if (input.type === "radio") {
+            input.checked = true
+            input.dispatchEvent(new Event("change"))
+            updateAriaChecked(input.name)
+        } else if (input.type === "checkbox") {
+            input.checked = !input.checked
+            input.dispatchEvent(new Event("change"))
+            input.setAttribute("aria-checked", input.checked.toString())
+
+            if (input.id === "yearly") {
+                handleYearlyToggle()
             }
         }
     })
@@ -94,49 +157,42 @@ function adjustNavBottom() {
 }
 
 function handleYearlyToggle() {
-    const arcadeEl = document.getElementById('arcade-el')
-    const advancedEl = document.getElementById('advanced-el')
-    const proEl = document.getElementById('pro-el')
-    const onlineEl = document.getElementById('online-el')
-    const storageEl = document.getElementById('storage-el')
-    const profileEl = document.getElementById('profile-el')
-    const freeEl = Array.from(document.getElementsByClassName('free'))
+    const elements = {
+        arcadeEl: document.getElementById('arcade-el'),
+        advancedEl: document.getElementById('advanced-el'),
+        proEl: document.getElementById('pro-el'),
+        onlineEl: document.getElementById('online-el'),
+        storageEl: document.getElementById('storage-el'),
+        profileEl: document.getElementById('profile-el'),
+        freeEl: Array.from(document.getElementsByClassName('free'))
+    };
 
     if (yearlyToggle.checked) {
-        monthlyYearly = 'Yearly'
-        arcadePlanUsd = 90
-        advancedPlanUsd = 120
-        proPlanUsd = 150
-        onlineAddonUsd = 10
-        storageAddonUsd = 20
-        profileAddonUsd = 20
-        arcadeEl.innerHTML = `$${arcadePlanUsd}/yr`
-        advancedEl.innerHTML = `$${advancedPlanUsd}/yr`
-        proEl.innerHTML = `$${proPlanUsd}/yr`
-        freeEl.forEach(el => el.classList.remove('is-hidden'))
-        onlineEl.innerHTML = `$${onlineAddonUsd}/yr`
-        storageEl.innerHTML = `$${storageAddonUsd}/yr`
-        profileEl.innerHTML = `$${profileAddonUsd}/yr`
+        monthlyYearly = 'Yearly';
+        arcadePlanUsd = 90;
+        advancedPlanUsd = 120;
+        proPlanUsd = 150;
+        onlineAddonUsd = 10;
+        storageAddonUsd = 20;
+        profileAddonUsd = 20;
     } else {
-        monthlyYearly = 'Monthly'
-        arcadePlanUsd = 9
-        advancedPlanUsd = 12
-        proPlanUsd = 15
-        onlineAddonUsd = 1
-        storageAddonUsd = 2
-        profileAddonUsd = 2
-        arcadeEl.innerHTML = `$${arcadePlanUsd}/mo`
-        advancedEl.innerHTML = `$${advancedPlanUsd}/mo`
-        proEl.innerHTML = `$${proPlanUsd}/mo`
-        freeEl.forEach(el => {
-            if (!el.classList.contains('is-hidden')) {
-                el.classList.add('is-hidden')
-            }
-        })
-        onlineEl.innerHTML = `$${onlineAddonUsd}/mo`
-        storageEl.innerHTML = `$${storageAddonUsd}/mo`
-        profileEl.innerHTML = `$${profileAddonUsd}/mo`
+        monthlyYearly = 'Monthly';
+        arcadePlanUsd = 9;
+        advancedPlanUsd = 12;
+        proPlanUsd = 15;
+        onlineAddonUsd = 1;
+        storageAddonUsd = 2;
+        profileAddonUsd = 2;
     }
+
+    elements.arcadeEl.innerHTML = `$${arcadePlanUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+    elements.advancedEl.innerHTML = `$${advancedPlanUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+    elements.proEl.innerHTML = `$${proPlanUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+    elements.onlineEl.innerHTML = `$${onlineAddonUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+    elements.storageEl.innerHTML = `$${storageAddonUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+    elements.profileEl.innerHTML = `$${profileAddonUsd}/${yearlyToggle.checked ? 'yr' : 'mo'}`;
+
+    elements.freeEl.forEach(el => el.classList.toggle('is-hidden', !yearlyToggle.checked));
 }
 
 function handleNextFromInfoToPlan() {

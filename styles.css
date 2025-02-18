@@ -332,7 +332,7 @@ form section p {
     margin-top: 1em;
 }
 
-#addons label {
+#addons .checkbox__container {
     background-color: var(--white);
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -342,10 +342,10 @@ form section p {
     padding: 1em 1.5em;
     cursor: pointer;
 }
-#addons label:hover {
+#addons .checkbox__container:hover {
     border-color: var(--purple);
 }
-#addons label:has(input:checked) {
+#addons .checkbox__container:has(input:checked) {
     background-color: var(--very-light-grey);
     border: 1px solid var(--purple);
 }
@@ -619,7 +619,6 @@ form section p {
     #plan #plans {
         flex-direction: column;
         gap: 1em;
-        margin-top: 0;
     }
     #plan .plan {
         padding: 1em;
@@ -645,8 +644,15 @@ form section p {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    main {
-        animation: fadeSlideIn 0.8s ease-out;
+    @media (max-width: 880px) {
+        form {
+            animation: fadeSlideIn 0.8s ease-out;
+        }
+    }
+    @media (min-width: 881px) {
+        main {
+            animation: fadeSlideIn 0.8s ease-out;
+        }
     }
 
     nav .step__icon.is-active,
@@ -665,8 +671,8 @@ form section p {
     #plan #toggle input:checked ~ p.monthly,
     #plan #toggle input:not(:checked) ~ p.monthly,
     #plan #toggle input:not(:checked) ~ p.yearly,
-    #addons label:hover,
-    #addons label:has(input:checked),
+    #addons .checkbox__container:hover,
+    #addons .checkbox__container:has(input:checked),
     #addons input:checked,
     #addons input:checked::before,
     .btn:hover {
