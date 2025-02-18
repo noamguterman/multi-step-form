@@ -126,7 +126,7 @@ function handleInputSelectionKeyboard() {
         if (e.key !== " " && e.key !== "Enter") return
 
         let target = e.target.closest(".plan, #toggle, .checkbox__container")
-        if (!target) return;
+        if (!target) return
 
         let input = target.querySelector("input")
         if (!input) return
@@ -140,10 +140,13 @@ function handleInputSelectionKeyboard() {
         } else if (input.type === "checkbox") {
             input.checked = !input.checked
             input.dispatchEvent(new Event("change"))
-            input.setAttribute("aria-checked", input.checked.toString())
 
+            // Update aria-checked on the toggle container, NOT the input
             if (input.id === "yearly") {
+                document.getElementById("toggle").setAttribute("aria-checked", input.checked.toString())
                 handleYearlyToggle()
+            } else {
+                input.setAttribute("aria-checked", input.checked.toString())
             }
         }
     })
