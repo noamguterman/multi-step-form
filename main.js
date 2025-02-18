@@ -325,14 +325,15 @@ function sumAddons() {
 }
 
 function handleSubmit(e) {
+    const form = document.querySelector('form')
+    const navBottom = document.getElementById('nav-bottom')
     e.preventDefault()
 
     if (!summarySection.classList.contains('is-hidden')) {
         summarySection.classList.add('is-hidden')
         confirmationSection.classList.remove('is-hidden')
-        confirmationSection.classList.add('confirmation-animation')
-        backBtn.classList.add('is-hidden')
-        confirmBtn.classList.add('is-hidden')
+        form.classList.add('confirmation-animation')
+        navBottom.style.display = 'none'
     } else {
         return
     }
