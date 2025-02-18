@@ -86,17 +86,13 @@ function handleInputSelectionMouse() {
             if (event.target !== toggleInput) { // Prevent double activation
                 toggleInput.checked = !toggleInput.checked;
                 toggleInput.dispatchEvent(new Event("change"))
-
-                // Update aria-checked on the #toggle div, NOT the input
-                toggleContainer.setAttribute("aria-checked", toggleInput.checked.toString())
-
-                handleYearlyToggle()
             }
         })
 
-        // Ensure that changing the checkbox itself updates the #toggle div
         toggleInput.addEventListener("change", function () {
+            // Update aria-checked only on #toggle
             toggleContainer.setAttribute("aria-checked", toggleInput.checked.toString())
+            handleYearlyToggle()
         })
     }
 
