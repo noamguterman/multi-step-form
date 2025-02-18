@@ -527,6 +527,7 @@ form section p {
         flex-direction: column;
         padding: 0;
         height: 100dvh;
+        background-color: var(--white);
     }
     main {
         flex-direction: column;
@@ -537,6 +538,7 @@ form section p {
         position: relative;
         background: none;
         box-shadow: none;
+        background-color: var(--bg);
     }
     nav {
         background: no-repeat center center fixed; 
