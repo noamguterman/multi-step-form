@@ -71,19 +71,18 @@ input {
 }
 
 body {
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: var(--bg);
     font-family: 'Ubuntu', sans-serif;
     padding: 1em;
-    min-height: 100vh;
-    align-items: center;
 }
 
 main {
     background-color: var(--white);
-    width: 940px;
-    height: 600px;
+    width: min(940px, 100%);
     padding: 1em;
     border-radius: 15px;
     display: flex;
@@ -526,12 +525,12 @@ form section p {
     body {
         flex-direction: column;
         padding: 0;
-        height: 100vh;
+        height: 100dvh;
     }
     main {
         flex-direction: column;
         padding: 0;
-        height: 90vh;
+        height: 90dvh;
         width: 100%;
         align-items: center;
         position: relative;
