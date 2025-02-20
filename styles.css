@@ -107,6 +107,7 @@ nav .step {
     display: flex;
     gap: 1em;
     cursor: pointer;
+    user-select: none;
 }
 nav .step:has(.step__icon.is-active) {
     cursor: default;
@@ -381,10 +382,15 @@ form section p {
     transform: translate(-50%, -50%);
     width: .8em;
     height: .8em;
-    background: url(./assets/images/icon-checkmark.svg);
+    background: url(./assets/images/icon-checkmark.svg?v=1);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    transition: opacity 0.1s ease-in;
+    opacity: 0;
+}
+#addons input:checked::before {
+    opacity: 1;
 }
 #addons .left-side h2 {
     color: var(--denim);
